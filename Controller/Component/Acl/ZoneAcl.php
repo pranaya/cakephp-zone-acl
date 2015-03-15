@@ -5,7 +5,8 @@ App::uses('AclInterface', 'Controller/Component/Acl');
 class ZoneAcl extends Object implements AclInterface {
 
 	protected $settings;
-	protected $aclComponent;
+	public static $actionPath = 'controllers/';
+	protected static $Aro;
 
 	public function initialize(\Component $component) {
 
@@ -40,7 +41,6 @@ class ZoneAcl extends Object implements AclInterface {
 		}
 
 		$this->settings = $iniContent;
-		$this->aclComponent = $component;
 	}
 
 	public function allow($aro, $aco, $action = "*") {
@@ -51,9 +51,9 @@ class ZoneAcl extends Object implements AclInterface {
 
 		$allowed = false;
 
-		$aco = str_replace('controllers/', '', $aco);
+		$aco = str_replace(static::$actionPath, '', $aco);
 
-		$zones = $this->aclComponent->Aro->getAllowedZones($aro);
+		$zones = static::$Aro->getAllowedZones($aro);
 
 		foreach ($zones as $zone) {
 			if (!isset($this->settings['zone:' . $zone]['url'])) {
@@ -78,6 +78,10 @@ class ZoneAcl extends Object implements AclInterface {
 
 	public function inherit($aro, $aco, $action = "*") {
 		
+	}
+
+	public static function setAro(ZoneAroInterface $Aro) {
+		static::$Aro = $Aro;
 	}
 
 }
