@@ -15,6 +15,17 @@ Requirement
 Installation
 -------------
 
+#### Method 1:
+
+ 1. Download this: http://github.com/pranaya/cakephp-zone-acl/zipball/master
+ 2. Unzip content into app/Plugin/ZoneAcl
+
+#### Load the Plugin
+At app/bootstrap.php
+
+    CakePlugin::load('ZoneAcl', array('bootstrap' => true));
+
+
 Usage
 -------------
 #### Configurations
@@ -143,6 +154,10 @@ Any view file:
 Tips
 ------------
 
+ - Use regular expression often for optimized performance and to reduce the number of urls in the ini file
+ - Put the urls that have high traffic on top of the list, so that it is matched faster
+ - Seperate a controller's long list of actions into serveral urls for easier readability of your settings
+ 
 License
 ------------
 The MIT License (MIT)
