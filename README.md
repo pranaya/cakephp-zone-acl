@@ -20,6 +20,18 @@ Installation
  1. Download this: http://github.com/pranaya/cakephp-zone-acl/zipball/master
  2. Unzip content into app/Plugin/ZoneAcl
 
+#### Method 2:
+
+**Using composer**
+
+ Add this to your composer.json file:
+
+    "require": {
+        "pranaya/cakephp-zone-acl": "[VERSION].*"
+    }
+
+Then run *composer install* or *composer update* command
+ 
 #### Load the Plugin
 At app/bootstrap.php
 
