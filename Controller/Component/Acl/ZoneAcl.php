@@ -64,7 +64,7 @@ class ZoneAcl extends Object implements AclInterface {
 			foreach ($this->settings['zone:' . $zone]['url'] as $key => $urlPattern) {
 				if (preg_match($urlPattern, $aco, $extra)) {
 					$allowed = true;
-					continue;
+					break 2;
 				}
 			}
 		}
