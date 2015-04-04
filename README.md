@@ -19,6 +19,7 @@ Usage
 -------------
 #### Configurations
 At app/Config/core.php
+
 Change
 
     Configure::write('Acl.classname', 'DbAcl');
@@ -32,6 +33,7 @@ To
 Then copy **app/Plugin/ZoneAcl/Config/zone-acl.ini** file to **app/Config/zone-acl.ini**
 
 If you want to use the ZoneAcl.ZoneAclHtml Helper.
+
 At app/Controller/AppController.php
 
     <?php
@@ -47,8 +49,9 @@ Zones are denoted by "**[zone:zonename]**". You can add as many zones as you lik
 One url can be in several zones if you like. Urls in the zones can be defined with regular expressions (recommended) or simply the whole controller/action combination.
 
 **Url format**
-Contoller/action
-Plugin/Controller/action
+
+ - Contoller/action
+ - Plugin/Controller/action
 
 You must use the actual controller and action names i.e. use **UserProfiles** not user_profiles for UserProfilesController and use **view_detail** for view_detail action.
 Urls are case-sensitive by default, which can be turned off by changing the “**case-sensitive**” setting to **false**. Please refer to the **zone-acl.ini** file for more useful examples of urls.
