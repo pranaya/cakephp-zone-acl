@@ -1,0 +1,24 @@
+{
+    "name": "pranaya/cakephp-zone-acl",
+    "type": "cakephp-plugin",
+    "description": "A CakePHP Acl plugin based on application zones for flexibility and simplicity",
+    "keywords": ["cakephp", "plugin", "acl", "zoneacl"],
+    "homepage": "https://github.com/pranaya/cakephp-zone-acl",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pranaya",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "composer/installers": "*"
+    },
+    "support": {
+        "source": "https://github.com/pranaya/cakephp-zone-acl"
+    },
+    "extra": {
+        "installer-name": "ZoneAcl"
+    }
+}
