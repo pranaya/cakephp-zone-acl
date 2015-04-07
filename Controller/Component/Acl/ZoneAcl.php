@@ -6,6 +6,7 @@ class ZoneAcl extends Object implements AclInterface {
 
 	protected $settings;
 	public static $actionPath = 'controllers/';
+	public static $userModel = 'User';
 	protected static $Aro;
 
 	public function initialize(\Component $component) {

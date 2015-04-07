@@ -22,10 +22,14 @@ class ZoneAclHtmlHelper extends HtmlHelper {
 
 		return '';
 	}
-	
+
 	public function isAllowed($url) {
 		$aco = ZoneAclUtility::convertUrlToAco($url);
-		$allow = $this->aclComponent->check(AuthComponent::user(), $aco);
+
+		$aro = array();
+		$aro[ZoneAcl::$userModel] = AuthComponent::user();
+
+		$allow = $this->aclComponent->check($aro, $aco);
 		return (bool) $allow;
 	}
 
