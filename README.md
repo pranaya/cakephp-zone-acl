@@ -25,18 +25,18 @@ Installation
 **Using composer**
 
  Add this to your composer.json file:
-
-    "require": {
-        "pranaya/cakephp-zone-acl": "[VERSION].*"
-    }
-
+```json
+"require": {
+    "pranaya/cakephp-zone-acl": "[VERSION].*"
+}
+```
 Then run *composer install* or *composer update* command
  
 #### Load the Plugin
 At app/bootstrap.php
-
-    CakePlugin::load('ZoneAcl', array('bootstrap' => true));
-
+```php
+CakePlugin::load('ZoneAcl', array('bootstrap' => true));
+```
 
 Usage
 -------------
@@ -44,26 +44,26 @@ Usage
 At app/Config/core.php
 
 Change
-
-    Configure::write('Acl.classname', 'DbAcl');
-    Configure::write('Acl.database', 'default');
-
+```php
+Configure::write('Acl.classname', 'DbAcl');
+Configure::write('Acl.database', 'default');
+```
 To
-
-    Configure::write('Acl.classname', 'ZoneAcl.ZoneAcl');
-    //Configure::write('Acl.database', 'default');
-
+```php
+Configure::write('Acl.classname', 'ZoneAcl.ZoneAcl');
+//Configure::write('Acl.database', 'default');
+```
 Then copy **app/Plugin/ZoneAcl/Config/zone-acl.ini** file to **app/Config/zone-acl.ini**
 
 If you want to use the ZoneAcl.ZoneAclHtml Helper.
 
 At app/Controller/AppController.php
-
-    <?php
-    class AppController extends Controller {
-    	public $helpers = array('ZoneAcl.ZoneAclHtml');
-    }
-
+```php
+<?php
+class AppController extends Controller {
+	public $helpers = array('ZoneAcl.ZoneAclHtml');
+}
+```
 #### Setting up zones
 Zones are defined in an **ini** file. Defining zones and adding urls (controller/action) to it is simple.
 
@@ -81,88 +81,89 @@ Urls are case-sensitive by default, which can be turned off by changing the “*
 
 Example:
 **app/Config/zone-acl.ini**
+```ini
+[settings]
+case-sensitive = true
 
-    [settings]
-    case-sensitive = true
-    
-    [zone:admin]
-    ; allow all admin_ actions
-    url[] = '(\w)+/admin_*'
+[zone:admin]
+; allow all admin_ actions
+url[] = '(\w)+/admin_*'
 
-    ; allow all plugin's admin_ action
-    url[] = '(\w+)/(\w+)/admin_*'
+; allow all plugin's admin_ action
+url[] = '(\w+)/(\w+)/admin_*'
 
-    ; allow UserProfile controller's view_detail action, just an example
-    url[] = 'UserProfile/view_detail'
-    
-    [zone:general-user]
-    ; allow all actions except admin_ actions
-    url[] = '(\w+)/(?!admin_)*'
-    
-    ; allow all plugin actions except admin_ actions
-    url[] = '(\w+)/(\w+)/(?!admin_)*'
+; allow UserProfile controller's view_detail action, just an example
+url[] = 'UserProfile/view_detail'
 
+[zone:general-user]
+; allow all actions except admin_ actions
+url[] = '(\w+)/(?!admin_)*'
+
+; allow all plugin actions except admin_ actions
+url[] = '(\w+)/(\w+)/(?!admin_)*'
+```
 
 #### Setting up Aro
 Setting up an Aro is easy. It is basically identifying a user with the session data and determining which zones they can access. The determination part is totally up to your application's need. It can be as simple or as complex as one needs. The Aro can be any object implementing the **ZoneAroInterface**.
 
 Example:
+```php
+<?php 
 
-    <?php 
-    
-    App::uses('ZoneAroInterface', 'ZoneAcl.Controller/Component/Acl');
-    
-    class MySimpleAro implements ZoneAroInterface { 
-    
-    	public function getAllowedZones($aro) { 
-    		// $aro contains user's session data 
-    		$userId = $aro['User']['id']; 
-    		$groupId = $aro['User']['group_id']; 
-    		 
-    		// find what zones user can access with those info 
-    		// you can even store the what zones the 
-    		// user can access in the session itself 
-    		$zones = array(); 
-    		 
-    		$zones[] = 'admin'; 
-    		$zones[] = 'general-user'; 
-    		
-    		// return array of zone names 
-    		//the user can access
-    		return $zones; 
-    	} 
-    }
+App::uses('ZoneAroInterface', 'ZoneAcl.Controller/Component/Acl');
+
+class MySimpleAro implements ZoneAroInterface { 
+
+	public function getAllowedZones($aro) { 
+		// $aro contains user's session data 
+		$userId = $aro['User']['id']; 
+		$groupId = $aro['User']['group_id']; 
+		 
+		// find what zones user can access with those info 
+		// you can even store the what zones the 
+		// user can access in the session itself 
+		$zones = array(); 
+		 
+		$zones[] = 'admin'; 
+		$zones[] = 'general-user'; 
+		
+		// return array of zone names 
+		//the user can access
+		return $zones; 
+	} 
+}
+ ```
 Once your Aro is ready, plug that Aro to ZoneAcl at AppController::beforeFilter().
 
 Example:
+```php
+<?php 
 
-    <?php 
-    
-    App::uses('MySimpleAro', 'Path/To/Class'); 
-    
-    class AppController extends Controller { 
-    	 
-    	public function beforeFilter() { 
-    		// plug ARO object
-    		ZoneAcl::setAro(new MySimpleAro()); 
-    	} 
-    }
+App::uses('MySimpleAro', 'Path/To/Class'); 
 
+class AppController extends Controller { 
+	 
+	public function beforeFilter() { 
+		// plug ARO object
+		ZoneAcl::setAro(new MySimpleAro()); 
+	} 
+}
+```
 #### ZoneAclHtml Helper
 ZoneAclHtml Helper provides a convenient way of hiding disallowed links. It extends the HtmlHelper. It provides 2 methods.
 
 Any view file:
+```php
+<?php
 
-    <?php
-    
-    // returns true if the current user is 
-    // allowed on that url
-    $this->ZoneAclHtml->isAllowed($url); 
-    
-    // same as HtmlHelper::link() except it returns empty link
-    // when user is not allowed
-    $this->ZoneAclHtml->link($title, $url); 
+// returns true if the current user is 
+// allowed on that url
+$this->ZoneAclHtml->isAllowed($url); 
 
+// same as HtmlHelper::link() except it returns empty link
+// when user is not allowed
+$this->ZoneAclHtml->link($title, $url); 
+```
 Tips
 ------------
 
